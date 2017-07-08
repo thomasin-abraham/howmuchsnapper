@@ -1,0 +1,70 @@
+.axisLabel {
+  stroke-width: 0;
+  font-family: 'Raleway';
+}
+
+.grid path {
+  stroke-width: 0;
+}
+
+.grid line {
+  stroke-width: 1;
+  stroke: lightgrey;
+  stroke-opacity: 0.7;
+}
+
+#priceperday {
+  background-color: #333;
+  color: #fff;
+}
+
+#snapperPath {
+  stroke: #E61E28;
+  stroke-width: 3;
+  fill: none;
+}
+
+#priceperdayNum {
+  font-size: 8em;
+}
+
+#svgContainer {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.landing {
+  height: 100vh;
+  background-color: #E61E28;
+  color: #fff;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+nav button {
+  border: none;
+  border-radius: 0;
+  border-bottom: 3px solid #fff;
+  color: #fff;
+  margin: 0 4px;
+}
+
+nav button:hover {
+  color: #333;
+  border-color: #333;
+}
+
+nav button:focus {
+  color: #333;
+  border-color: #333;
+}
+
+.container-fluid {
+  padding: 40px 64px;
+  box-sizing: border-box;
+}
