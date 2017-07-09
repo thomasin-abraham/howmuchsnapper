@@ -13,9 +13,37 @@
   stroke-opacity: 0.7;
 }
 
-#priceperday {
-  background-color: #333;
-  color: #fff;
+.divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 30vh;
+}
+
+.divider svg {
+  width: 10px;
+  height: 10px;
+}
+
+.divider circle {
+  r: 4px;
+  cy: 5px;
+  cx: 5px;
+  shape-rendering: geometricPrecision;
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1;
+}
+
+.container-fluid.divider {
+  padding: 0;
+}
+
+.dividerLine {
+  width: 1px;
+  background-color: #ccc;
+  height: 100%;
 }
 
 #snapperPath {
@@ -26,6 +54,8 @@
 
 .bigText {
   font-size: 8em;
+  line-height: 1em;
+  margin-bottom: 24px;
 }
 
 #svgContainer {

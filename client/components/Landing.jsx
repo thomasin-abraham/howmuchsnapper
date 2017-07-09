@@ -5,13 +5,13 @@ const Landing = () => {
   return (
     <div className="container-fluid landing">
       <h4>Graphing my Snapper</h4>
-        <nav>
-          { renderNavButton('#balancevtime', 'Balance v Time') }
-          { renderNavButton('#priceperday', '$ per day') }
-          { renderNavButton('#daysbetweentopups', 'Days between topups') }
-        </nav>
-      </div>
-    )
+      <nav>
+        { renderNavButton('#balancevtime', 'Balance v Time') }
+        { renderNavButton('#priceperday', '$ per day') }
+        { renderNavButton('#daysbetweentopups', 'Days between topups') }
+      </nav>
+    </div>
+  )
 }
 
 function renderNavButton (element, title) {

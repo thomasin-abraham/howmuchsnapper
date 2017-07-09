@@ -14,6 +14,7 @@ router.get('/data', (req, res) => {
       let tagOff = ['','']
       let splitAmount = ['','']
       let penalty = ''
+      let PenaltyFare = ''
       let splitTag=['','']
       if (row.FIELD11.includes('Tag on')) {
         splitTag = row.FIELD11.split('\n')
@@ -25,6 +26,7 @@ router.get('/data', (req, res) => {
         if (!tagOff[1]) tagOff.push('')
         splitAmount = row.FIELD12.split('\n')
         if (!splitAmount[1]) splitAmount.push('')
+        if (splitAmount.length === 3) PenaltyFare = splitAmount.shift()
       }
       return {
         DateTime: row.FIELD3,
@@ -37,7 +39,8 @@ router.get('/data', (req, res) => {
         TagOffTime: trim(tagOff[0]),
         tagOnPrice: Number(trim(splitAmount[0]).replace('$', '')),
         tagOffPrice: Number(trim(splitAmount[1]).replace('$', '')),
-        Penalty: trim(penalty)
+        Penalty: trim(penalty),
+        PenaltyFare: Number(trim(PenaltyFare).replace('$', ''))
       }
     })
     console.log(manipulatedData)
