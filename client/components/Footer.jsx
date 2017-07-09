@@ -5,7 +5,7 @@ import jump from 'jump.js'
 const Footer = () => {
   return (
     <div className="container-fluid text-center">
-      Thanks for listening (:
+      ♡
     </div>
   )
 }

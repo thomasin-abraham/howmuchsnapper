@@ -1,27 +1,19 @@
 import moment from 'moment'
 
+import { humaniseDuration, setText } from './utils'
+
 export default function daysBetweenTopups (data) {
   const filteredData = filterTopUps(data)
   const daysBetween = numDaysBetween(filteredData)
   const mean = filteredData.length >= 1
     ? Math.round((totalDays(daysBetween)/daysBetween.length))
     : null
+  const formatMean = mean
+  ? humaniseDuration(mean, 'days')
+  : '-'
 
-  mean
-  ? setText(mean)
-  : noTopUps()
+  setText(formatMean, 'daysbetweentopups')
 }
-
-function noTopUps () {
-  d3.select('#daysbetweentopupsNum')
-    .text('-')
-}
-
-function setText (mean) {
-  d3.select('#daysbetweentopupsNum')
-    .text(formatDuration(mean))
-}
-
 
 function filterTopUps (data) {
   return data.filter((transaction) => {
@@ -41,8 +33,4 @@ function numDaysBetween (totalTopUps) {
     ? null
     : moment(transaction.DateTime).diff(totalTopUps[i-1].DateTime, 'days')
   }).slice(1)
-}
-
-function formatDuration (numOfDays) {
-  return moment.duration(numOfDays, 'days').humanize() // Display time in human readable way
 }

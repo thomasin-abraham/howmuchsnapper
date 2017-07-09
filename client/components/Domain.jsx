@@ -4,7 +4,10 @@ import jump from 'jump.js'
 
 const Domain = () => {
   return (
-    <div className="container-fluid text-center domain">
+    <div className="container-fluid text-center">
+      Displaying data for
+      <div className="domain" id="domainNum"></div>
+      (Change dates by zooming + dragging the above graph)
     </div>
   )
 }

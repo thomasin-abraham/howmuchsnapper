@@ -68,6 +68,7 @@ function transactionFare (t, row) {
 router.get('/data', (req, res) => {
   fs.readFile(path.join(__dirname, '../data/htmlToJSON.json'), 'utf8', (err, data) => {
     if (err) throw err
+    console.log(getNormalData(data))
     res.json(getNormalData(data))
   })
 })

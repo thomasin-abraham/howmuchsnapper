@@ -6,9 +6,11 @@ const Landing = () => {
     <div className="container-fluid landing">
       <h4>Graphing my Snapper</h4>
       <nav>
-        { renderNavButton('#balancevtime', 'Change dates') }<br />
+        { renderNavButton('#balancevtime', 'Explore') }<br />
         { renderNavButton('#priceperday', '$ per day') }
-        { renderNavButton('#daysbetweentopups', 'Days between topups') }
+        { renderNavButton('#daysbetweentopups', 'Days between topups') }<br />
+        { renderNavButton('#triptime', 'Trip time') }
+        { renderNavButton('#moneysaved', 'Total money saved') }
       </nav>
     </div>
   )
@@ -16,12 +18,8 @@ const Landing = () => {
 
 function renderNavButton (element, title) {
   return (
-    <button onClick={() => { jumpTo(element) }}>{ title }</button>
+    <button onClick={() => { jump(element) }}>{ title }</button>
   )
-}
-
-function jumpTo(element) {
-  jump(element)
 }
 
 export default Landing
