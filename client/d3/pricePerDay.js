@@ -33,7 +33,7 @@ function findTotalDays (data) {
 
 function doesDayExist(acc, row) {
   return acc.find((r) => {
-    return r.DateTime.split(' ')[0] === row.DateTime.split(' ')[0] // Has this day already been counted?
+    return moment(r.DateTime).isSame(r.DateTime, 'day') // Has this day already been counted?
   })
 }
 
