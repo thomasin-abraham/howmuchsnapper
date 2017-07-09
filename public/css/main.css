@@ -78,8 +78,20 @@
   margin-bottom: 24px;
 }
 
+#stop-map {
+  height: 80vh;
+  width: 100%;
+}
+
 #svgContainer {
   width: 100%;
+  cursor: grab;
+  cursor: -webkit-grab;
+}
+
+#svgContainer:focus {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
 }
 
 .text-center {

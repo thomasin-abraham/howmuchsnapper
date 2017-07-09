@@ -1,6 +1,9 @@
 import React from 'react'
 import inViewport from 'in-viewport'
 import moment from 'moment'
+// import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
+// mapboxgl.accessToken = 'pk.eyJ1IjoidGhvbWFzaW4iLCJhIjoiY2o0d2ZlNHdoMTZ5NTJxcGhqejRmazg2MyJ9.fAtNxfp8KzDpI0UO7EOLZQ'
+
 
 import { makeDataRequest } from '../api'
 import { createGraph } from '../d3/lineGraph'
@@ -14,12 +17,20 @@ import PricePerDay from './PricePerDay'
 import DaysBetweenTopups from './DaysBetweenTopups'
 import Domain from './Domain'
 import Footer from './Footer'
+// import StopMap from './StopMap'
 
 class Main extends React.Component {
   componentDidMount() { // Send a copy of the data to all graphs on page
     makeDataRequest((data) => {
       createGraph(copyData(data), (domain) => newDomain(data, domain))
     })
+
+    // let map = new mapboxgl.Map({
+    // container: 'stop-map',
+    // style: 'mapbox://styles/mapbox/light-v9'
+    // })
+    // map.addControl(new mapboxgl.NavigationControl())
+    //   .scrollZoom.disable()
   }
 
   render() {
