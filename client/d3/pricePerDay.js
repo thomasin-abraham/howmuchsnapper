@@ -6,18 +6,15 @@ export default function pricePerDay (data, dayType) {
     numOfSnapperDays: findSnapperDays(data)
   }
 
-  applyTransition((findFareTotal(data) / countedDays[dayType]).toFixed(2)) // The average of whichever day type is selected
+  setText((findFareTotal(data) / countedDays[dayType]).toFixed(2)) // The average of whichever day type is selected
 }
 
-function applyTransition (mean) {
+function setText(mean) {
   d3.select('#priceperdayNum')
-    .transition()
-    .ease(d3.easeCircle)
-    .duration(1500)
-    .tween("text", () => {
-          var that = d3.select('#priceperdayNum')
-          var i = d3.interpolateNumber(that.text().replace('$', ''), mean) // Scale of numbers between 0 and the mean
-          return function (t) { that.text(`$${i(t).toFixed(2)}`) } // For every transition frame display number on the scale of 0 to the mean
+    .text(() => {
+      return mean == Infinity
+      ? '-'
+      : `$${mean}`
     })
 }
 

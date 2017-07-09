@@ -3,11 +3,25 @@ import moment from 'moment'
 export default function daysBetweenTopups (data) {
   const filteredData = filterTopUps(data)
   const daysBetween = numDaysBetween(filteredData)
-  console.log(daysBetween)
-  const mean = Math.round((totalDays(daysBetween)/daysBetween.length))
+  const mean = filteredData.length >= 1
+    ? Math.round((totalDays(daysBetween)/daysBetween.length))
+    : null
 
-  applyTransition(mean)
+  mean
+  ? setText(mean)
+  : noTopUps()
 }
+
+function noTopUps () {
+  d3.select('#daysbetweentopupsNum')
+    .text('-')
+}
+
+function setText (mean) {
+  d3.select('#daysbetweentopupsNum')
+    .text(formatDuration(mean))
+}
+
 
 function filterTopUps (data) {
   return data.filter((transaction) => {
@@ -29,18 +43,6 @@ function numDaysBetween (totalTopUps) {
   }).slice(1)
 }
 
-function applyTransition (mean) {
-  d3.select('#daysbetweentopupsNum')
-    .transition()
-    .ease(d3.easeLinear)
-    .duration(1500)
-    .tween("text", () => {
-          var that = d3.select('#daysbetweentopupsNum')
-          var i = d3.interpolateNumber(that.text(), mean) // Scale of numbers between 0 and the mean
-          return (t) => { that.text(formatDuration(i, t)) } // For every transition frame display number on the scale of 0 to the mean
-    })
-}
-
-function formatDuration (i, t) {
-  return moment.duration(i(t), 'days').humanize() // Display time in human readable way
+function formatDuration (numOfDays) {
+  return moment.duration(numOfDays, 'days').humanize() // Display time in human readable way
 }

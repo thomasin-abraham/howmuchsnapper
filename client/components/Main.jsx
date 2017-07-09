@@ -1,7 +1,9 @@
 import React from 'react'
+import inViewport from 'in-viewport'
+import moment from 'moment'
 
 import { makeDataRequest } from '../api'
-import balanceOverTime from '../d3/lineGraph'
+import { createGraph } from '../d3/lineGraph'
 import pricePerDay from '../d3/pricePerDay'
 import daysBetweenTopups from '../d3/daysBetweenTopups'
 
@@ -10,13 +12,13 @@ import Divider from './Divider'
 import BalanceVsTime from './BalanceVsTime'
 import PricePerDay from './PricePerDay'
 import DaysBetweenTopups from './DaysBetweenTopups'
+import Domain from './Domain'
+import Footer from './Footer'
 
 class Main extends React.Component {
   componentDidMount() { // Send a copy of the data to all graphs on page
     makeDataRequest((data) => {
-      balanceOverTime(data.map(a => Object.assign({}, a)))
-      pricePerDay(data.map(a => Object.assign({}, a)), 'numOfDays')
-      daysBetweenTopups(data.map(a => Object.assign({}, a)))
+      createGraph(copyData(data), (domain) => newDomain(data, domain))
     })
   }
 
@@ -26,13 +28,38 @@ class Main extends React.Component {
         <Landing />
         <BalanceVsTime />
         <Divider />
-        <PricePerDay />
+        <div className="container-fluid horizontalContainer">
+          <PricePerDay />
+          <DaysBetweenTopups />
+        </div>
         <Divider />
-        <DaysBetweenTopups />
-        <Divider />
+        <Footer />
       </div>
     )
   }
+}
+
+function copyData (data) {
+  return data.map(a => Object.assign({}, a))
+}
+
+function newDomain (data, domain) { // Refresh statistics based on new domain
+  pricePerDay(filterForDomain(data, domain), 'numOfDays')
+  daysBetweenTopups(filterForDomain(data, domain))
+
+  d3.selectAll('.domain')
+    .text(`${formatDomain(domain[0])} - ${formatDomain(domain[1])}`)
+}
+
+function formatDomain (date) {
+  return moment(date).format('MMM Mo YYYY h:mma')
+}
+
+function filterForDomain (data, domain) { // Edit data to only include days within domain
+  return copyData(data)
+    .filter((transaction) => {
+      return (moment(transaction.DateTime).isAfter(domain[0]) && moment(transaction.DateTime).isBefore(domain[1])) || moment(transaction.DateTime).isSame(domain[0]) || moment(transaction.DateTime).isSame(domain[1])
+    })
 }
 
 export default Main

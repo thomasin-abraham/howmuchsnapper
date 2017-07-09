@@ -1,31 +1,33 @@
 import moment from 'moment'
 
-export default function createGraph (data) {
+export function createGraph (data, callback) {
   const dim = setDimensions() // Set dimensions of graph
   const times = setTime(data) // Parse time of data, return inital left bound of zoom and max time
   const scales = setScales(data, dim) // Set the X and Y scales to use
   let path = definePath(data, scales)
   let { g, svg } = createContainers(dim)
   const gXAx = drawAxes(dim, svg, scales)
-  const zoom = createZoom(dim, scales, gXAx, g, svg, path)
+  const zoom = createZoom(dim, scales, gXAx, g, svg, path, callback)
   drawPath(data, g, path, dim.margin)
-  initialZoom(svg, dim, times, scales, zoom)
+
+  createGraph.initialZoom = () => {
+    svg.transition() // Zoom to a 2 week selection
+      .duration(1500)
+      .call(zoom.transform, d3.zoomIdentity
+        .scale((dim.width-dim.margin.left) / (scales.xScale(times.xScaleMax) - scales.xScale(times.initialZoomX)))
+        .translate((-scales.xScale(times.initialZoomX)), 0))
+  }
+
+  createGraph.initialZoom()
 }
 
-function initialZoom (svg, {width, margin}, { xScaleMax, initialZoomX }, { xScale }, zoom) {
-  svg.transition() // Zoom to a 2 week selection
-    .duration(1500)
-    .call(zoom.transform, d3.zoomIdentity
-      .scale((width-margin.left) / (xScale(xScaleMax) - xScale(initialZoomX)))
-      .translate((-xScale(initialZoomX)), 0))
-}
-
-function redrawChart (e, xScale, gXAx, g, path) { // Calculate and apply transformations when zooming and panning
+function redrawChart (e, xScale, gXAx, g, path, callback) { // Calculate and apply transformations when zooming and panning
   let t = e.transform
   let xt = t.rescaleX(xScale)
   let xAxis = d3.axisBottom(xt)
   gXAx.call(xAxis)
   g.select("#snapperPath").attr('d', path.x((d) => xt(d.DateTime)))
+  callback(xAxis.scale().domain())
 }
 
 function setDimensions () {
@@ -125,12 +127,12 @@ function drawPath (data, g, path) {
     .attr('d', path)
 }
 
-function createZoom ({ width, height, margin }, { xScale }, gXAx, g, svg, path) {
+function createZoom ({ width, height, margin }, { xScale }, gXAx, g, svg, path, callback) {
   let zoom = d3.zoom()
     .scaleExtent([1, 1000])
     .translateExtent([[0, 0], [(width-margin.left), height]])
     .extent([[0, 0], [(width-margin.left), height]])
-    .on('zoom', () => { redrawChart(d3.event, xScale, gXAx, g, path) })
+    .on('zoom', () => { redrawChart(d3.event, xScale, gXAx, g, path, callback) })
   svg.call(zoom)
   return zoom
 }
