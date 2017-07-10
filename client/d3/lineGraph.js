@@ -11,9 +11,7 @@ export function createGraph (data, callback) {
   drawPath(data, g, path, dim.margin)
 
   createGraph.initialZoom = () => {
-    svg.transition() // Zoom to a 2 week selection
-      .duration(1500)
-      .call(zoom.transform, d3.zoomIdentity
+    svg.call(zoom.transform, d3.zoomIdentity
         .scale((dim.width-dim.margin.left) / (scales.xScale(times.xScaleMax) - scales.xScale(times.initialZoomX)))
         .translate((-scales.xScale(times.initialZoomX)), 0))
   }
