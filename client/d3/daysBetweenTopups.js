@@ -1,18 +1,15 @@
 import moment from 'moment'
 
-import { humaniseDuration, setText } from './utils'
+import { humaniseDuration, setText, formatMean } from './utils'
 
 export default function daysBetweenTopups (data) {
   const filteredData = filterTopUps(data)
   const daysBetween = numDaysBetween(filteredData)
-  const mean = filteredData.length >= 1
+  const mean = filteredData.length > 1
     ? Math.round((totalDays(daysBetween)/daysBetween.length))
-    : null
-  const formatMean = mean
-  ? humaniseDuration(mean, 'days')
-  : '-'
+    : 0
 
-  setText(formatMean, 'daysbetweentopups')
+  setText(formatMean(mean, humaniseDuration(mean, 'days')), 'daysbetweentopups')
 }
 
 function filterTopUps (data) {

@@ -1,16 +1,15 @@
-import { filterDays, setText } from './utils'
+import { filterDays, setText, formatMean } from './utils'
 
 export default function totalSaved (data) {
   const total = findTotalSaved(data)
-  const formatTotal = total == Infinity
-    ? '-'
-    : `$${total.toFixed(2)}`
 
-  setText(formatTotal, 'moneysaved')
+  setText(formatMean(total, `$${total.toFixed(2)}`), 'moneysaved')
 }
 
-function findTotalSaved (data) {
+export function findTotalSaved (data) {
   return data.reduce((acc, row) => {
-    return acc + (5 - Math.abs(row.Total))
+    return row.Total
+    ? acc + (5 - Math.abs(row.Total))
+    : acc
   }, 0)
 }

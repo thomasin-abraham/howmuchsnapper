@@ -1,6 +1,6 @@
 import moment from 'moment'
 
-import { findSnapperDays, findTotalDays, setText } from './utils'
+import { findSnapperDays, findTotalDays, setText, formatMean } from './utils'
 
 export default function pricePerDay (data, dayType) {
   const countedDays = {
@@ -8,13 +8,10 @@ export default function pricePerDay (data, dayType) {
     numOfSnapperDays: findSnapperDays(data)
   }
   const mean = findFareTotal(data) / countedDays[dayType] // The average of whichever day type is selected
-  const formatMean = mean == Infinity
-    ? '-'
-    : `$${mean.toFixed(2)}`
-  setText(formatMean, 'priceperday')
+  setText(formatMean(mean, `$${mean.toFixed(2)}`), 'priceperday')
 }
 
-function findFareTotal (data) {
+export function findFareTotal (data) {
   return data.reduce((acc, row) => {
     return acc + Math.abs(row.Total) // Count all the fare totals
   }, 0)
