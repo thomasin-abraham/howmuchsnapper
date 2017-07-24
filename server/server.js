@@ -19,7 +19,7 @@ app.use(bodyParser.json())
 
 app.use('/', router)
 
-module.exports = (connection) => {
-  app.set('connection', connection)
+module.exports = () => {
+  // app.set('connection', connection)
   return app
 }
