@@ -1,11 +1,11 @@
 {
-  "name": "How much snapper",
+  "name": "how-much-snapper",
   "version": "0.1.1",
   "description": "",
   "engines": {
     "node": "8.2.1"
   },
-  "repository": "https://github.com/dev-academy-challenges/boilerplate-react-webpack.git",
+  "repository": "https://github.com/thomasin-abraham/howmuchsnapper",
   "main": "server/index.js",
   "scripts": {
     "start": "node server/index",
