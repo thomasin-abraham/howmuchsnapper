@@ -12,19 +12,19 @@ export default function daysBetweenTopups (data) {
   setText(formatMean(mean, humaniseDuration(mean, 'days')), 'daysbetweentopups')
 }
 
-function filterTopUps (data) {
+export function filterTopUps (data) {
   return data.filter((transaction) => {
     return transaction.Description.includes('Top-up')
   })
 }
 
-function totalDays(days) {
+export function totalDays(days) {
   return days.reduce((acc, daysNum) => {
     return acc + daysNum
   }, 0)
 }
 
-function numDaysBetween (totalTopUps) {
+export function numDaysBetween (totalTopUps) {
   return totalTopUps.map((transaction, i) => {
     return i === 0
     ? null

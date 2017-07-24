@@ -6,3 +6,5 @@ import app from '../../server/server'
 
 let configureDatabase = require('./helpers/database-config')
 configureDatabase(test, app)
+
+test.skip('', t => {})

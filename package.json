@@ -2,6 +2,9 @@
   "name": "boilerplate-react-webpack",
   "version": "0.1.1",
   "description": "A webpack React starter",
+  "engines": {
+    "node": "8.2.1"
+  },
   "repository": "https://github.com/dev-academy-challenges/boilerplate-react-webpack.git",
   "main": "server/index.js",
   "scripts": {
