@@ -1,7 +1,7 @@
 {
-  "name": "boilerplate-react-webpack",
+  "name": "How much snapper",
   "version": "0.1.1",
-  "description": "A webpack React starter",
+  "description": "",
   "engines": {
     "node": "8.2.1"
   },
@@ -62,19 +62,11 @@
     "cors": "^2.8.3",
     "d3": "^4.9.1",
     "express": "^4.14.0",
-    "in-viewport": "^3.5.0",
     "jump.js": "^1.0.2",
-    "jwt-simple": "^0.5.1",
-    "knex": "^0.13.0",
-    "mapbox-gl": "^0.38.0",
     "moment": "^2.18.1",
     "path": "^0.12.7",
     "react-router-dom": "^4.1.1",
     "sort-by": "^1.2.0",
-    "sqlite3": "^3.1.8",
-    "superagent": "^3.5.2",
-    "trim": "0.0.1",
-    "validator": "^7.0.0",
-    "zxcvbn": "^4.4.2"
+    "superagent": "^3.5.2"
   }
 }
