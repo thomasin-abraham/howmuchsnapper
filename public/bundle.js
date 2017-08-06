@@ -27664,8 +27664,9 @@ function sendNewDomain(e, xScale, callback) {
 
 function setDimensions() {
   var margin = { top: 8, right: 8, bottom: 56, left: 56 };
+
   var width = document.getElementById('svgContainer').clientWidth - margin.left - margin.right;
-  var height = 600 - margin.bottom - margin.top;
+  var height = window.innerWidth > 500 ? 600 - margin.bottom - margin.top : 400 - margin.bottom - margin.top;
   return { width: width, height: height, margin: margin };
 }
 
