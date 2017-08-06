@@ -1,11 +1,11 @@
 {
-  "name": "boilerplate-react-webpack",
+  "name": "how-much-snapper",
   "version": "0.1.1",
-  "description": "A webpack React starter",
+  "description": "",
   "engines": {
     "node": "8.2.1"
   },
-  "repository": "https://github.com/dev-academy-challenges/boilerplate-react-webpack.git",
+  "repository": "https://github.com/thomasin-abraham/howmuchsnapper",
   "main": "server/index.js",
   "scripts": {
     "start": "node server/index",
@@ -42,8 +42,6 @@
     "nock": "^9.0.13",
     "node-mocks-http": "^1.6.2",
     "nodemon": "^1.11.0",
-    "passport": "^0.3.2",
-    "passport-local": "^1.0.0",
     "react": "^15.4.2",
     "react-addons-test-utils": "^15.4.2",
     "react-dom": "^15.4.2",
@@ -62,17 +60,12 @@
     "cors": "^2.8.3",
     "d3": "^4.9.1",
     "express": "^4.14.0",
-    "in-viewport": "^3.5.0",
     "jump.js": "^1.0.2",
-    "jwt-simple": "^0.5.1",
-    "mapbox-gl": "^0.38.0",
     "moment": "^2.18.1",
+    "trim": "0.0.1",
     "path": "^0.12.7",
     "react-router-dom": "^4.1.1",
     "sort-by": "^1.2.0",
-    "superagent": "^3.5.2",
-    "trim": "0.0.1",
-    "validator": "^7.0.0",
-    "zxcvbn": "^4.4.2"
+    "superagent": "^3.5.2"
   }
 }

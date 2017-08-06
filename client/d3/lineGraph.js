@@ -25,7 +25,13 @@ function redrawChart (e, xScale, gXAx, g, path, callback) { // Calculate and app
   let xAxis = d3.axisBottom(xt)
   gXAx.call(xAxis)
   g.select("#snapperPath").attr('d', path.x((d) => xt(d.DateTime)))
-  callback(xAxis.scale().domain())
+  callback(xAxis.scale().domain(), false)
+}
+
+function sendNewDomain (e, xScale, callback) { // Calculate and apply transformations when zooming and panning
+  let t = e.transform
+  let xt = t.rescaleX(xScale)
+  callback(d3.axisBottom(xt).scale().domain(), true)
 }
 
 function setDimensions () {
@@ -131,6 +137,8 @@ function createZoom ({ width, height, margin }, { xScale }, gXAx, g, svg, path, 
     .translateExtent([[0, 0], [(width-margin.left), height]])
     .extent([[0, 0], [(width-margin.left), height]])
     .on('zoom', () => { redrawChart(d3.event, xScale, gXAx, g, path, callback) })
+    .on('end', () => { sendNewDomain(d3.event, xScale, callback, ) })
+
   svg.call(zoom)
   return zoom
 }
