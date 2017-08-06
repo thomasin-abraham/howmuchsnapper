@@ -27426,9 +27426,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-// import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
-// mapboxgl.accessToken = 'pk.eyJ1IjoidGhvbWFzaW4iLCJhIjoiY2o0d2ZlNHdoMTZ5NTJxcGhqejRmazg2MyJ9.fAtNxfp8KzDpI0UO7EOLZQ'
-
 
 var Main = function (_React$Component) {
   _inherits(Main, _React$Component);
@@ -27490,7 +27487,6 @@ function newDomain(unfilteredData, domain, isZoomEnd) {
   // Refresh statistics based on new domain
   var data = filterForDomain(unfilteredData, domain);
   var filteredByFares = (0, _utils.filterDays)(data);
-
   renderDomainDates(domain);
   if (isZoomEnd) {
     (0, _pricePerDay2.default)(filteredByFares, 'numOfDays');
@@ -27626,29 +27622,25 @@ function createGraph(data, callback) {
   var dim = setDimensions(); // Set dimensions of graph
   var times = setTime(data); // Parse time of data, return inital left bound of zoom and max time
   var scales = setScales(data, dim); // Set the X and Y scales to use
+
   var path = definePath(data, scales);
+  var g = createContainers(dim);
 
-  var _createContainers = createContainers(dim),
-      g = _createContainers.g,
-      svg = _createContainers.svg;
-
-  var gXAx = drawAxes(dim, svg, scales);
-  var zoom = createZoom(dim, scales, gXAx, g, svg, path, callback);
+  drawAxes(dim, scales);
+  var zoom = createZoom(dim, scales, g, path, callback);
   drawPath(data, g, path, dim.margin);
 
-  createGraph.initialZoom = function () {
-    svg.call(zoom.transform, d3.zoomIdentity.scale((dim.width - dim.margin.left) / (scales.xScale(times.xScaleMax) - scales.xScale(times.initialZoomX))).translate(-scales.xScale(times.initialZoomX), 0));
-  };
-
-  createGraph.initialZoom();
+  d3.select('svg').call(zoom.transform, d3.zoomIdentity // Initial zoom!
+  .scale((dim.width - dim.margin.left) / (scales.xScale(times.xScaleMax) - scales.xScale(times.initialZoomX))).translate(-scales.xScale(times.initialZoomX), 0));
 }
 
-function redrawChart(e, xScale, gXAx, g, path, callback) {
+function redrawChart(e, xScale, g, path, callback) {
   // Calculate and apply transformations when zooming and panning
   var t = e.transform;
   var xt = t.rescaleX(xScale);
   var xAxis = d3.axisBottom(xt);
-  gXAx.call(xAxis);
+  d3.select('.bottomAxis').call(xAxis);
+
   g.select("#snapperPath").attr('d', path.x(function (d) {
     return xt(d.DateTime);
   }));
@@ -27656,17 +27648,16 @@ function redrawChart(e, xScale, gXAx, g, path, callback) {
 }
 
 function sendNewDomain(e, xScale, callback) {
-  // Calculate and apply transformations when zooming and panning
+  // Send new domain to be applied to all stats
   var t = e.transform;
   var xt = t.rescaleX(xScale);
   callback(d3.axisBottom(xt).scale().domain(), true);
 }
 
 function setDimensions() {
-  var margin = { top: 8, right: 8, bottom: 56, left: 56 };
-
-  var width = parseInt(d3.select('svg').style('width')) - margin.left - margin.right;
-  var height = parseInt(d3.select('svg').style('height')) - margin.top - margin.bottom;
+  var margin = { top: 8, right: 8, bottom: 24, left: 40 };
+  var width = parseInt(d3.select('svg').style('width'));
+  var height = parseInt(d3.select('svg').style('height'));
   return { width: width, height: height, margin: margin };
 }
 
@@ -27686,25 +27677,25 @@ function setTime(data) {
   };
 }
 
-function drawAxes(_ref, svg, _ref2) {
+function drawAxes(_ref, _ref2) {
   var height = _ref.height,
       width = _ref.width,
       margin = _ref.margin;
   var xScale = _ref2.xScale,
       yScale = _ref2.yScale;
 
-  drawYAxis(svg, width, margin, yScale);
-  return drawXAxis(svg, height, margin, xScale);
+  drawYAxis(width, margin, yScale);
+  drawXAxis(height, margin, xScale);
 }
 
-function drawXAxis(svg, height, margin, xScale) {
-  return svg.append("g").attr("transform", "translate(" + margin.left + "," + (height - margin.bottom) + ")").attr('class', 'axisLabel bottomAxis').call(d3.axisBottom(xScale));
+function drawXAxis(height, margin, xScale) {
+  d3.select('svg').append('g').attr("transform", "translate(" + margin.left + "," + (height - margin.bottom) + ")").attr('class', 'axisLabel bottomAxis').call(d3.axisBottom(xScale));
 }
 
-function drawYAxis(svg, width, margin, yScale) {
-  svg.append("g").attr('class', 'axisLabel leftAxis grid').attr("transform", "translate(" + margin.left + ", " + margin.top + ")").call(d3.axisLeft(yScale).tickFormat(function (t) {
+function drawYAxis(width, margin, yScale) {
+  d3.select('svg').append('g').attr('class', 'axisLabel leftAxis grid').attr("transform", "translate(" + margin.left + ", " + margin.top + ")").call(d3.axisLeft(yScale).tickFormat(function (t) {
     return '$' + t + '.00';
-  }).tickSize(-width + margin.left));
+  }).tickSize(-width + margin.left + margin.right));
 }
 
 function createContainers(_ref3) {
@@ -27714,11 +27705,16 @@ function createContainers(_ref3) {
 
   var svg = d3.select('svg').attr('viewBox', '0 0 ' + width + ' ' + height);
 
-  svg.append('clipPath').attr('id', 'clipPath').append('svg:rect').attr('width', width).attr('height', height);
+  createClipPath(svg, width, height, margin);
+  return createG(svg, width, height, margin);
+}
 
-  var g = svg.append('g').attr("width", width - margin.left).attr("height", height).attr('transform', 'translate(' + margin.left + ',' + margin.top + ')').attr('clip-path', 'url(#clipPath)');
+function createClipPath(svg, width, height, margin) {
+  svg.append('clipPath').attr('id', 'clipPath').append('svg:rect').attr('width', width - margin.right - margin.left).attr('height', height - margin.bottom - margin.top);
+}
 
-  return { g: g, svg: svg };
+function createG(svg, width, height, margin) {
+  return svg.append('g').attr("width", width - margin.left - margin.right).attr("height", height - margin.bottom - margin.top).attr('transform', 'translate(' + margin.left + ',' + margin.top + ')').attr('clip-path', 'url(#clipPath)');
 }
 
 function setScales(data, dim) {
@@ -27730,7 +27726,7 @@ function setScales(data, dim) {
 
 function setScaleX(data, dim) {
   return d3.scaleTime() // Define x scale
-  .range([0, dim.width - dim.margin.left]).domain(d3.extent(data, function (d) {
+  .range([0, dim.width - dim.margin.left - dim.margin.right]).domain(d3.extent(data, function (d) {
     return d.DateTime;
   }));
 }
@@ -27759,37 +27755,43 @@ function drawPath(data, g, path) {
   .data([data]).attr('id', 'snapperPath').attr('d', path);
 }
 
-function createZoom(_ref5, _ref6, gXAx, g, svg, path, callback) {
+function createZoom(_ref5, _ref6, g, path, callback) {
   var width = _ref5.width,
       height = _ref5.height,
       margin = _ref5.margin;
   var xScale = _ref6.xScale;
 
-  var zoom = d3.zoom().scaleExtent([1, 1000]).translateExtent([[0, 0], [width - margin.left, height]]).extent([[0, 0], [width - margin.left, height]]).on('zoom', function () {
-    redrawChart(d3.event, xScale, gXAx, g, path, callback);
+  var zoom = d3.zoom().scaleExtent([1, 1000]).translateExtent([[0, 0], [width - margin.left - margin.right, height - margin.top - margin.bottom]]).extent([[0, 0], [width - margin.left - margin.right, height - margin.top - margin.bottom]]).on('zoom', function () {
+    redrawChart(d3.event, xScale, g, path, callback);
   }).on('end', function () {
     sendNewDomain(d3.event, xScale, callback);
   });
 
-  svg.call(zoom).on('wheel.zoom', null);
-
-  d3.select('.zoomIn').on('click', function () {
-    return zoomInButton(zoom, svg);
-  });
-
-  d3.select('.zoomOut').on('click', function () {
-    return zoomOutButton(zoom, svg);
-  });
-
+  callZoom(zoom);
+  addZoomHandlers(zoom);
   return zoom;
 }
 
-function zoomInButton(zoom, svg) {
-  svg.transition(d3.transition()).duration(200).call(zoom.scaleBy, 1.5);
+function callZoom(zoom) {
+  d3.select('svg').call(zoom).on('wheel.zoom', null);
 }
 
-function zoomOutButton(zoom, svg) {
-  svg.transition(d3.transition()).duration(200).call(zoom.scaleBy, 0.7);
+function addZoomHandlers(zoom) {
+  d3.select('.zoomIn').on('click', function () {
+    return zoomInButton(zoom);
+  });
+
+  d3.select('.zoomOut').on('click', function () {
+    return zoomOutButton(zoom);
+  });
+}
+
+function zoomInButton(zoom) {
+  d3.select('svg').transition(d3.transition()).duration(200).call(zoom.scaleBy, 1.5);
+}
+
+function zoomOutButton(zoom) {
+  d3.select('svg').transition(d3.transition()).duration(200).call(zoom.scaleBy, 0.7);
 }
 
 /***/ }),

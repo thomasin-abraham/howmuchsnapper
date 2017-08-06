@@ -1,141 +1,27 @@
+/* MAIN */
+
+
 body {
   color: #333;
 }
 
-.zoomButtonContainer {
-  position: absolute;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  top: 0px;
-  left: 0px;
-}
 
-.zoomButton {
-  display: inline;
-  font-size: 1.5em;
-  margin: 0 16px;
-  cursor: pointer;
-}
-
-.zoomButton:hover {
-  font-size: 1.7em;
-  color: #000;
-}
-
-.axisLabel {
-  stroke-width: 0;
-  font-family: 'Raleway';
-}
-
-.grid path {
-  stroke-width: 0;
-}
-
-.grid line {
-  stroke-width: 1;
-  stroke-dasharray: 3,4;
-  stroke: lightgrey;
-  stroke-opacity: 0.7;
-}
-
-.divider {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 20vh;
-}
-
-.right-border {
-  /*border-right: 1px solid #ccc;*/
-}
-
-.horizontalContainer {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 100%;
-}
-
-.statsDisplay {
-  padding: 32px 8px;
+.container-fluid {
+  padding: 40px 8px;
+  box-sizing: border-box;
 }
 
 
-.divider svg {
-  width: 10px;
-  height: 10px;
-}
+/* UTILITIES */
 
-.divider circle {
-  r: 4px;
-  cy: 5px;
-  cx: 5px;
-  shape-rendering: geometricPrecision;
-  fill: none;
-  stroke: #ccc;
-  stroke-width: 1;
-}
-
-.container-fluid.divider {
-  padding: 0;
-}
-
-.domain {
-  font-size: 1.5em;
-  font-weight: 600;
-  padding: 0;
-  margin: 0;
-}
-
-.domainText {
-  display: block;
-}
-
-.dividerLine {
-  width: 1px;
-  background-color: #ccc;
-  height: 100%;
-}
-
-#snapperPath {
-  stroke: #E61E28;
-  stroke-width: 1;
-  fill: none;
-}
-
-.bigText {
-  font-size: 5em;
-  line-height: 1em;
-  margin-bottom: 24px;
-}
-
-
-#svgContainer {
-  position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-svg {
-  cursor: grab;
-  width: 100%;
-  height: 70vh;
-  cursor: -webkit-grab;
-}
-
-svg:active {
-  cursor: grabbing;
-  cursor: -webkit-grabbing;
-}
 
 .text-center {
   text-align: center;
 }
+
+
+/* LANDING */
+
 
 .landing {
   height: 100vh;
@@ -165,14 +51,158 @@ nav button:focus {
   border-color: #333;
 }
 
-.container-fluid {
-  padding: 40px 8px;
-  box-sizing: border-box;
+
+/* DIVIDER */
+
+
+.dividerLine {
+  width: 1px;
+  background-color: #ccc;
+  height: 100%;
+}
+
+.divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 20vh;
+}
+
+
+.divider svg {
+  width: 10px;
+  height: 10px;
+}
+
+.divider circle {
+  r: 4px;
+  cy: 5px;
+  cx: 5px;
+  shape-rendering: geometricPrecision;
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 2;
+}
+
+.container-fluid.divider {
+  padding: 0;
+}
+
+
+/* LINE GRAPH */
+
+/* Svg */
+
+#svgContainer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+svg {
+  cursor: grab;
+  width: 100%;
+  height: 70vh;
+  cursor: -webkit-grab;
+}
+
+svg:active {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+}
+
+#snapperPath {
+  stroke: #E61E28;
+  stroke-width: 1;
+  fill: none;
+}
+
+.axisLabel {
+  stroke-width: 0;
+  font-family: 'Raleway';
 }
 
 .tick:nth-child(odd) text {
   visibility: hidden;
 }
+
+.grid path {
+  stroke-width: 0;
+}
+
+.grid line {
+  stroke-width: 1;
+  stroke-dasharray: 3,4;
+  stroke: lightgrey;
+  stroke-opacity: 0.7;
+}
+
+/* Zoom Buttons */
+
+.zoomButtonContainer {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  top: 0px;
+  left: 0px;
+}
+
+.zoomButton {
+  display: inline;
+  font-size: 1.5em;
+  margin: 0 16px;
+  cursor: pointer;
+}
+
+.zoomButton:hover {
+  font-size: 1.7em;
+  color: #000;
+}
+
+
+/* DOMAIN */
+
+
+.domain {
+  font-size: 1.5em;
+  font-weight: 600;
+  padding: 0;
+  margin: 0;
+}
+
+.domainText {
+  display: block;
+}
+
+
+/* STATS */
+
+
+.horizontalContainer {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.statsDisplay {
+  padding: 32px 8px;
+}
+
+.bigText {
+  font-size: 5em;
+  line-height: 1em;
+  margin-bottom: 24px;
+}
+
+
+/* MEDIA QUERIES */
+
 
 @media screen and (min-width:850px) {
   .horizontalContainer {
@@ -188,6 +218,7 @@ nav button:focus {
     display: inline;
   }
 }
+
 @media screen and (min-width:500px) {
   .bigText {
     font-size: 8em;
@@ -197,5 +228,8 @@ nav button:focus {
   }
   #snapperPath {
     stroke-width: 3;
+  }
+  .divider circle {
+    stroke-width: 1;
   }
 }

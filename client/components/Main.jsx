@@ -1,9 +1,6 @@
 import React from 'react'
 import inViewport from 'in-viewport'
 import moment from 'moment'
-// import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
-// mapboxgl.accessToken = 'pk.eyJ1IjoidGhvbWFzaW4iLCJhIjoiY2o0d2ZlNHdoMTZ5NTJxcGhqejRmazg2MyJ9.fAtNxfp8KzDpI0UO7EOLZQ'
-
 
 import { makeDataRequest } from '../api'
 import { createGraph } from '../d3/lineGraph'
@@ -59,7 +56,6 @@ function copyData (data) {
 function newDomain (unfilteredData, domain, isZoomEnd) { // Refresh statistics based on new domain
   let data = filterForDomain(unfilteredData, domain)
   let filteredByFares = filterDays(data)
-
   renderDomainDates(domain)
   if (isZoomEnd) {
     pricePerDay(filteredByFares, 'numOfDays')
