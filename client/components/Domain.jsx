@@ -6,7 +6,11 @@ const Domain = () => {
   return (
     <div className="container-fluid text-center">
       Displaying data for
-      <div className="domain" id="domainNum"></div>
+      <div className="domain" id="domainNum">
+        <span className="domainText domain1"></span>
+        <span className="domainText"> - </span>
+        <span className="domainText domain2"></span>
+      </div>
       (Change dates by zooming + dragging the above graph)
     </div>
   )

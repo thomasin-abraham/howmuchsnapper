@@ -53,11 +53,15 @@ body {
 .horizontalContainer {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
 }
 
-.horizontalContainer div {
-  flex: 1;
+.statsDisplay {
+  padding: 32px 8px;
 }
+
 
 .divider svg {
   width: 10px;
@@ -85,6 +89,10 @@ body {
   margin: 0;
 }
 
+.domainText {
+  display: block;
+}
+
 .dividerLine {
   width: 1px;
   background-color: #ccc;
@@ -98,18 +106,15 @@ body {
 }
 
 .bigText {
-  font-size: 8em;
+  font-size: 5em;
   line-height: 1em;
   margin-bottom: 24px;
 }
 
-#stop-map {
-  height: 80vh;
-  width: 100%;
-}
 
 #svgContainer {
   position: relative;
+  height: 60vh;
   width: 100%;
 }
 
@@ -156,6 +161,26 @@ nav button:focus {
 }
 
 .container-fluid {
-  padding: 40px 64px;
+  padding: 40px 8px;
   box-sizing: border-box;
+}
+
+@media screen and (min-width:850px) {
+  .horizontalContainer {
+    flex-direction: row;
+  }
+  .statsDisplay {
+    padding: 32px;
+  }
+  .container-fluid {
+    padding:40px 64px;
+  }
+  .domainText {
+    display: inline;
+  }
+}
+@media screen and (min-width:500px) {
+  .bigText {
+    font-size: 8em;
+  }
 }
