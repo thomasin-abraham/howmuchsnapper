@@ -70,12 +70,15 @@ function newDomain (unfilteredData, domain, isZoomEnd) { // Refresh statistics b
 }
 
 function renderDomainDates (domain) {
-  d3.select('#domainNum')
-    .text(`${formatDomain(domain[0])} - ${formatDomain(domain[1])}`)
+  d3.select('.domain1')
+    .text(formatDomain(domain[0]))
+
+  d3.select('.domain2')
+    .text(formatDomain(domain[1]))
 }
 
 function formatDomain (date) {
-  const formatTime = d3.timeFormat('%b %e %Y %I:%M%p')
+  const formatTime = d3.timeFormat('%b %e %Y %I%p')
   return formatTime(date)
 }
 
