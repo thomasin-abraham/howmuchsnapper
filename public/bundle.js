@@ -27169,13 +27169,26 @@ var BalanceVsTime = function BalanceVsTime() {
       null,
       'Snapper balance over time'
     ),
-    '( scroll to zoom and click + drag to pan )',
     _react2.default.createElement(
       'div',
       { className: 'row', id: 'svgContainer' },
-      _react2.default.createElement('svg', { preserveAspectRatio: 'xMinYMin meet', viewBox: '0 0 960 500' }),
-      _react2.default.createElement(_Domain2.default, null)
-    )
+      _react2.default.createElement(
+        'div',
+        { className: 'zoomButtonContainer' },
+        _react2.default.createElement(
+          'div',
+          { className: 'zoomButton zoomIn' },
+          _react2.default.createElement('span', { className: 'jam jam-zoom-plus' })
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'zoomButton zoomOut' },
+          _react2.default.createElement('span', { className: 'jam jam-zoom-minus' })
+        )
+      ),
+      _react2.default.createElement('svg', { preserveAspectRatio: 'xMinYMin meet', viewBox: '0 0 960 500' })
+    ),
+    _react2.default.createElement(_Domain2.default, null)
   );
 };
 
@@ -27251,7 +27264,19 @@ var Footer = function Footer() {
   return _react2.default.createElement(
     'div',
     { className: 'container-fluid text-center' },
-    '\u2661'
+    _react2.default.createElement('span', { className: 'jam jam-heart' }),
+    _react2.default.createElement('br', null),
+    _react2.default.createElement(
+      'a',
+      { href: 'https://www.snapper.co.nz/', title: 'Snapper website', target: '_blank' },
+      'Thank you Snapper'
+    ),
+    _react2.default.createElement('br', null),
+    _react2.default.createElement(
+      'a',
+      { href: 'http://jam-icons.com', title: 'Jam icons website', target: '_blank' },
+      'Icons by Jam Icons'
+    )
   );
 };
 
@@ -27681,7 +27706,7 @@ function createContainers(_ref3) {
 
   var svg = d3.select('svg').attr('viewBox', '0 0 ' + width + ' ' + height);
 
-  var g = svg.append('g').attr("width", width - margin.left).attr("height", height).attr('transform', 'translate(' + margin.left + ',' + 0 + ')');
+  var g = svg.append('g').attr("width", width - margin.left).attr("height", height).attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
   return { g: g, svg: svg };
 }
@@ -27736,8 +27761,25 @@ function createZoom(_ref5, _ref6, gXAx, g, svg, path, callback) {
     sendNewDomain(d3.event, xScale, callback);
   });
 
-  svg.call(zoom);
+  svg.call(zoom).on('wheel.zoom', null);
+
+  d3.select('.zoomIn').on('click', function () {
+    return zoomInButton(zoom, svg);
+  });
+
+  d3.select('.zoomOut').on('click', function () {
+    return zoomOutButton(zoom, svg);
+  });
+
   return zoom;
+}
+
+function zoomInButton(zoom, svg) {
+  svg.transition(d3.transition()).duration(200).call(zoom.scaleBy, 1.5);
+}
+
+function zoomOutButton(zoom, svg) {
+  svg.transition(d3.transition()).duration(200).call(zoom.scaleBy, 0.7);
 }
 
 /***/ }),
