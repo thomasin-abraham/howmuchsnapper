@@ -201,6 +201,18 @@ svg:active {
 }
 
 
+/* FOOTER */
+
+
+.jam-github {
+  font-size: 2em;
+}
+
+.footer a {
+  text-decoration: none;
+}
+
+
 /* MEDIA QUERIES */
 
 
