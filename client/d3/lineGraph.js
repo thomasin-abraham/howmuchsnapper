@@ -93,7 +93,7 @@ function createContainers ({ width, height, margin}) {
   let g = svg.append('g')
     .attr("width", (width - margin.left))
     .attr("height", (height))
-    .attr('transform', 'translate(' + margin.left + ',' + 0  + ')')
+    .attr('transform', 'translate(' + margin.left + ',' + margin.top  + ')')
 
   return { g, svg }
 }
