@@ -11984,7 +11984,17 @@ var Domain = function Domain() {
     'div',
     { className: 'container-fluid text-center' },
     'Displaying data for',
-    _react2.default.createElement('div', { className: 'domain', id: 'domainNum' }),
+    _react2.default.createElement(
+      'div',
+      { className: 'domain', id: 'domainNum' },
+      _react2.default.createElement('span', { className: 'domainText domain1' }),
+      _react2.default.createElement(
+        'span',
+        { className: 'domainText' },
+        ' - '
+      ),
+      _react2.default.createElement('span', { className: 'domainText domain2' })
+    ),
     '(Change dates by zooming + dragging the above graph)'
   );
 };
@@ -27491,11 +27501,13 @@ function newDomain(unfilteredData, domain, isZoomEnd) {
 }
 
 function renderDomainDates(domain) {
-  d3.select('#domainNum').text(formatDomain(domain[0]) + ' - ' + formatDomain(domain[1]));
+  d3.select('.domain1').text(formatDomain(domain[0]));
+
+  d3.select('.domain2').text(formatDomain(domain[1]));
 }
 
 function formatDomain(date) {
-  var formatTime = d3.timeFormat('%b %e %Y %I:%M%p');
+  var formatTime = d3.timeFormat('%b %e %Y %I%p');
   return formatTime(date);
 }
 
@@ -27531,7 +27543,7 @@ var StatsDisplay = function StatsDisplay(_ref) {
 
   return _react2.default.createElement(
     "div",
-    { className: "right-border text-center", id: name },
+    { className: "right-border text-center statsDisplay", id: name },
     _react2.default.createElement("div", { id: name + "Num", className: "bigText" }),
     _react2.default.createElement(
       "div",
