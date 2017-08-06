@@ -37,10 +37,8 @@ function sendNewDomain (e, xScale, callback) { // Calculate and apply transforma
 function setDimensions () {
   const margin = {top: 8, right: 8, bottom: 56, left: 56}
 
-  const width = document.getElementById('svgContainer').clientWidth - margin.left - margin.right
-  const height = window.innerWidth > 500
-  ? 600 - margin.bottom - margin.top
-  : 400 - margin.bottom - margin.top
+  const width = parseInt(d3.select('svg').style('width')) - margin.left - margin.right
+  const height = parseInt(d3.select('svg').style('height')) - margin.top - margin.bottom
   return { width, height, margin }
 }
 
@@ -58,8 +56,7 @@ function setTime (data) {
 }
 
 function drawAxes({ height, width, margin }, svg, { xScale, yScale }) {
-  drawYAxis(svg, margin, yScale)
-  drawGridLines(svg, width, margin, yScale)
+  drawYAxis(svg, width, margin, yScale)
   return drawXAxis(svg, height, margin, xScale)
 }
 
@@ -70,33 +67,30 @@ function drawXAxis (svg, height, margin, xScale) {
     .call(d3.axisBottom(xScale))
 }
 
-function drawYAxis (svg, margin, yScale) {
+function drawYAxis (svg, width, margin, yScale) {
   svg.append("g")
-    .attr('class', 'axisLabel leftAxis')
+    .attr('class', 'axisLabel leftAxis grid')
     .attr("transform", "translate(" + margin.left + ", " + margin.top + ")")
     .call(d3.axisLeft(yScale)
-      .tickFormat((t) => `$${t}.00`))
-}
-
-function drawGridLines(svg, width, margin, yScale) {
-  svg.append("g")
-    .attr("transform", "translate(" + margin.left + ", " + margin.top + ")")
-    .attr("class", "grid")
-    .attr("width", width)
-    .call(d3.axisLeft(yScale)
-      .tickSize(-width + margin.left)
-      .tickFormat("")
-     )
+      .tickFormat((t) => `$${t}.00`)
+      .tickSize(-width + margin.left))
 }
 
 function createContainers ({ width, height, margin}) {
   let svg = d3.select('svg')
     .attr('viewBox', `0 0 ${width} ${height}`)
 
+  svg.append('clipPath')
+    .attr('id', 'clipPath')
+      .append('svg:rect')
+      .attr('width', width)
+      .attr('height', height)
+
   let g = svg.append('g')
     .attr("width", (width - margin.left))
     .attr("height", (height))
     .attr('transform', 'translate(' + margin.left + ',' + margin.top  + ')')
+    .attr('clip-path', 'url(#clipPath)')
 
   return { g, svg }
 }

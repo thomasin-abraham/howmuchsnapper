@@ -27196,7 +27196,7 @@ var BalanceVsTime = function BalanceVsTime() {
           _react2.default.createElement('span', { className: 'jam jam-zoom-minus' })
         )
       ),
-      _react2.default.createElement('svg', { preserveAspectRatio: 'xMinYMin meet', viewBox: '0 0 960 500' })
+      _react2.default.createElement('svg', null)
     ),
     _react2.default.createElement(_Domain2.default, null)
   );
@@ -27665,8 +27665,8 @@ function sendNewDomain(e, xScale, callback) {
 function setDimensions() {
   var margin = { top: 8, right: 8, bottom: 56, left: 56 };
 
-  var width = document.getElementById('svgContainer').clientWidth - margin.left - margin.right;
-  var height = window.innerWidth > 500 ? 600 - margin.bottom - margin.top : 400 - margin.bottom - margin.top;
+  var width = parseInt(d3.select('svg').style('width')) - margin.left - margin.right;
+  var height = parseInt(d3.select('svg').style('height')) - margin.top - margin.bottom;
   return { width: width, height: height, margin: margin };
 }
 
@@ -27693,8 +27693,7 @@ function drawAxes(_ref, svg, _ref2) {
   var xScale = _ref2.xScale,
       yScale = _ref2.yScale;
 
-  drawYAxis(svg, margin, yScale);
-  drawGridLines(svg, width, margin, yScale);
+  drawYAxis(svg, width, margin, yScale);
   return drawXAxis(svg, height, margin, xScale);
 }
 
@@ -27702,14 +27701,10 @@ function drawXAxis(svg, height, margin, xScale) {
   return svg.append("g").attr("transform", "translate(" + margin.left + "," + (height - margin.bottom) + ")").attr('class', 'axisLabel bottomAxis').call(d3.axisBottom(xScale));
 }
 
-function drawYAxis(svg, margin, yScale) {
-  svg.append("g").attr('class', 'axisLabel leftAxis').attr("transform", "translate(" + margin.left + ", " + margin.top + ")").call(d3.axisLeft(yScale).tickFormat(function (t) {
+function drawYAxis(svg, width, margin, yScale) {
+  svg.append("g").attr('class', 'axisLabel leftAxis grid').attr("transform", "translate(" + margin.left + ", " + margin.top + ")").call(d3.axisLeft(yScale).tickFormat(function (t) {
     return '$' + t + '.00';
-  }));
-}
-
-function drawGridLines(svg, width, margin, yScale) {
-  svg.append("g").attr("transform", "translate(" + margin.left + ", " + margin.top + ")").attr("class", "grid").attr("width", width).call(d3.axisLeft(yScale).tickSize(-width + margin.left).tickFormat(""));
+  }).tickSize(-width + margin.left));
 }
 
 function createContainers(_ref3) {
@@ -27719,7 +27714,9 @@ function createContainers(_ref3) {
 
   var svg = d3.select('svg').attr('viewBox', '0 0 ' + width + ' ' + height);
 
-  var g = svg.append('g').attr("width", width - margin.left).attr("height", height).attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+  svg.append('clipPath').attr('id', 'clipPath').append('svg:rect').attr('width', width).attr('height', height);
+
+  var g = svg.append('g').attr("width", width - margin.left).attr("height", height).attr('transform', 'translate(' + margin.left + ',' + margin.top + ')').attr('clip-path', 'url(#clipPath)');
 
   return { g: g, svg: svg };
 }

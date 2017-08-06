@@ -34,6 +34,7 @@ body {
 
 .grid line {
   stroke-width: 1;
+  stroke-dasharray: 3,4;
   stroke: lightgrey;
   stroke-opacity: 0.7;
 }
@@ -101,7 +102,7 @@ body {
 
 #snapperPath {
   stroke: #E61E28;
-  stroke-width: 3;
+  stroke-width: 1;
   fill: none;
 }
 
@@ -115,10 +116,15 @@ body {
 #svgContainer {
   position: relative;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 svg {
   cursor: grab;
+  width: 100%;
+  height: 70vh;
   cursor: -webkit-grab;
 }
 
@@ -188,5 +194,8 @@ nav button:focus {
   }
   .tick:nth-child(odd) text {
     visibility: visible;
+  }
+  #snapperPath {
+    stroke-width: 3;
   }
 }
