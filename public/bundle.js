@@ -27409,8 +27409,8 @@ var Main = function (_React$Component) {
     value: function componentDidMount() {
       // Send a copy of the data to all graphs on page (how can I make this faster?)
       (0, _api.makeDataRequest)(function (data) {
-        (0, _lineGraph.createGraph)(copyData(data), function (domain) {
-          return newDomain(data, domain);
+        (0, _lineGraph.createGraph)(copyData(data), function (domain, isZoomEnd) {
+          newDomain(data, domain, isZoomEnd);
         });
       });
     }
@@ -27451,16 +27451,18 @@ function copyData(data) {
   });
 }
 
-function newDomain(unfilteredData, domain) {
+function newDomain(unfilteredData, domain, isZoomEnd) {
   // Refresh statistics based on new domain
   var data = filterForDomain(unfilteredData, domain);
   var filteredByFares = (0, _utils.filterDays)(data);
 
   renderDomainDates(domain);
-  (0, _pricePerDay2.default)(filteredByFares, 'numOfDays');
-  (0, _daysBetweenTopups2.default)(data);
-  (0, _tripTime2.default)(filteredByFares, 'numOfSnapperDays');
-  (0, _totalSaved2.default)(filteredByFares);
+  if (isZoomEnd) {
+    (0, _pricePerDay2.default)(filteredByFares, 'numOfDays');
+    (0, _daysBetweenTopups2.default)(data);
+    (0, _tripTime2.default)(filteredByFares, 'numOfSnapperDays');
+    (0, _totalSaved2.default)(filteredByFares);
+  }
 }
 
 function renderDomainDates(domain) {
@@ -27613,7 +27615,14 @@ function redrawChart(e, xScale, gXAx, g, path, callback) {
   g.select("#snapperPath").attr('d', path.x(function (d) {
     return xt(d.DateTime);
   }));
-  callback(xAxis.scale().domain());
+  callback(xAxis.scale().domain(), false);
+}
+
+function sendNewDomain(e, xScale, callback) {
+  // Calculate and apply transformations when zooming and panning
+  var t = e.transform;
+  var xt = t.rescaleX(xScale);
+  callback(d3.axisBottom(xt).scale().domain(), true);
 }
 
 function setDimensions() {
@@ -27723,7 +27732,10 @@ function createZoom(_ref5, _ref6, gXAx, g, svg, path, callback) {
 
   var zoom = d3.zoom().scaleExtent([1, 1000]).translateExtent([[0, 0], [width - margin.left, height]]).extent([[0, 0], [width - margin.left, height]]).on('zoom', function () {
     redrawChart(d3.event, xScale, gXAx, g, path, callback);
+  }).on('end', function () {
+    sendNewDomain(d3.event, xScale, callback);
   });
+
   svg.call(zoom);
   return zoom;
 }

@@ -42,8 +42,6 @@
     "nock": "^9.0.13",
     "node-mocks-http": "^1.6.2",
     "nodemon": "^1.11.0",
-    "passport": "^0.3.2",
-    "passport-local": "^1.0.0",
     "react": "^15.4.2",
     "react-addons-test-utils": "^15.4.2",
     "react-dom": "^15.4.2",

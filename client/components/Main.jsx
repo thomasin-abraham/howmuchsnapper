@@ -20,10 +20,13 @@ import StatsDisplay from './StatsDisplay'
 import Domain from './Domain'
 import Footer from './Footer'
 
+
 class Main extends React.Component {
   componentDidMount() { // Send a copy of the data to all graphs on page (how can I make this faster?)
     makeDataRequest((data) => {
-      createGraph(copyData(data), (domain) => newDomain(data, domain))
+      createGraph(copyData(data), (domain, isZoomEnd) => {
+        newDomain(data, domain, isZoomEnd)
+      })
     })
   }
 
@@ -53,15 +56,17 @@ function copyData (data) {
   return data.map(a => Object.assign({}, a))
 }
 
-function newDomain (unfilteredData, domain) { // Refresh statistics based on new domain
+function newDomain (unfilteredData, domain, isZoomEnd) { // Refresh statistics based on new domain
   let data = filterForDomain(unfilteredData, domain)
   let filteredByFares = filterDays(data)
 
   renderDomainDates(domain)
-  pricePerDay(filteredByFares, 'numOfDays')
-  daysBetweenTopups(data)
-  tripTime(filteredByFares, 'numOfSnapperDays')
-  totalSaved(filteredByFares)
+  if (isZoomEnd) {
+    pricePerDay(filteredByFares, 'numOfDays')
+    daysBetweenTopups(data)
+    tripTime(filteredByFares, 'numOfSnapperDays')
+    totalSaved(filteredByFares)
+  }
 }
 
 function renderDomainDates (domain) {
