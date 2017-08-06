@@ -93,7 +93,7 @@ function createContainers ({ width, height, margin}) {
   let g = svg.append('g')
     .attr("width", (width - margin.left))
     .attr("height", (height))
-    .attr('transform', 'translate(' + margin.left + ',' + 0  + ')')
+    .attr('transform', 'translate(' + margin.left + ',' + margin.top  + ')')
 
   return { g, svg }
 }
@@ -140,5 +140,25 @@ function createZoom ({ width, height, margin }, { xScale }, gXAx, g, svg, path, 
     .on('end', () => { sendNewDomain(d3.event, xScale, callback, ) })
 
   svg.call(zoom)
+    .on('wheel.zoom', null)
+
+  d3.select('.zoomIn')
+    .on('click', () => zoomInButton(zoom, svg))
+
+  d3.select('.zoomOut')
+    .on('click', () => zoomOutButton(zoom, svg))
+
   return zoom
+}
+
+function zoomInButton(zoom, svg) {
+  svg.transition(d3.transition())
+  .duration(200)
+  .call(zoom.scaleBy, 1.5)
+}
+
+function zoomOutButton(zoom, svg) {
+  svg.transition(d3.transition())
+  .duration(200)
+  .call(zoom.scaleBy, 0.7)
 }

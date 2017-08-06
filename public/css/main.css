@@ -2,6 +2,27 @@ body {
   color: #333;
 }
 
+.zoomButtonContainer {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  top: 0px;
+  left: 0px;
+}
+
+.zoomButton {
+  display: inline;
+  font-size: 1.5em;
+  margin: 0 16px;
+  cursor: pointer;
+}
+
+.zoomButton:hover {
+  font-size: 1.7em;
+  color: #000;
+}
+
 .axisLabel {
   stroke-width: 0;
   font-family: 'Raleway';
@@ -88,12 +109,16 @@ body {
 }
 
 #svgContainer {
+  position: relative;
   width: 100%;
+}
+
+svg {
   cursor: grab;
   cursor: -webkit-grab;
 }
 
-#svgContainer:active {
+svg:active {
   cursor: grabbing;
   cursor: -webkit-grabbing;
 }
