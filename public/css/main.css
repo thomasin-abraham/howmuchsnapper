@@ -114,7 +114,6 @@ body {
 
 #svgContainer {
   position: relative;
-  height: 60vh;
   width: 100%;
 }
 
@@ -165,6 +164,10 @@ nav button:focus {
   box-sizing: border-box;
 }
 
+.tick:nth-child(odd) text {
+  visibility: visible;
+}
+
 @media screen and (min-width:850px) {
   .horizontalContainer {
     flex-direction: row;
@@ -182,5 +185,8 @@ nav button:focus {
 @media screen and (min-width:500px) {
   .bigText {
     font-size: 8em;
+  }
+  .tick:nth-child(odd) text {
+    visibility: hidden;
   }
 }
