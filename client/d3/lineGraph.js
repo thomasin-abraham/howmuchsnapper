@@ -36,8 +36,11 @@ function sendNewDomain (e, xScale, callback) { // Calculate and apply transforma
 
 function setDimensions () {
   const margin = {top: 8, right: 8, bottom: 56, left: 56}
+
   const width = document.getElementById('svgContainer').clientWidth - margin.left - margin.right
-  const height = 600 - margin.bottom - margin.top
+  const height = window.innerWidth > 500
+  ? 600 - margin.bottom - margin.top
+  : 400 - margin.bottom - margin.top
   return { width, height, margin }
 }
 

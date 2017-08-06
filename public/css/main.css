@@ -165,7 +165,7 @@ nav button:focus {
 }
 
 .tick:nth-child(odd) text {
-  visibility: visible;
+  visibility: hidden;
 }
 
 @media screen and (min-width:850px) {
@@ -187,6 +187,6 @@ nav button:focus {
     font-size: 8em;
   }
   .tick:nth-child(odd) text {
-    visibility: hidden;
+    visibility: visible;
   }
 }
